@@ -1,9 +1,18 @@
 from collections import Counter
-
 import random
+
 class GameLogic:
     @staticmethod
     def calculate_score(dice_roll):
+        """
+        Calculate the score based on the rules of the game.
+
+        Parameters:
+        - dice_roll (tuple): A tuple representing the values rolled on dice.
+
+        Returns:
+        - int: The calculated score.
+        """
         # Implement scoring logic based on the rules of the game
         score = 0
 
@@ -36,19 +45,18 @@ class GameLogic:
                 score += value * 100
                 print("current score after 5 of a kind:", score)
 
-        # Special cases using the more concise version
-        for count in [6, 5, 4]:
-            if counts[1] == count:
-                score += 2000 if count == 6 else 1000 * (count - 3)
-
-        if counts[5] == 4:
-            score -= 50
-
-        if counts[5] == 5:
-            score -= 100
-
-        if all(counts[val] == 2 for val in [2, 3, 6]):
-            score += 500
+            if dice_roll.count(1) == 6:
+                score += 1800
+            if dice_roll.count(1) == 5:
+                score += 1600
+            if dice_roll.count(1) == 4:
+                score += 800
+            if dice_roll.count(5) == 4:
+                score -= 50
+            if dice_roll.count(5) == 5:
+                score -= 100
+            if dice_roll.count(2) == 2 and dice_roll.count(3) == 2 and dice_roll.count(6) == 2:
+                score += 500
 
         print("current score after final:", score)
 
@@ -56,7 +64,15 @@ class GameLogic:
 
     @staticmethod
     def roll_dice(num_dice):
-        # Simulate rolling 'num_dice' dice
+        """
+        Simulate rolling 'num_dice' dice.
+
+        Parameters:
+        - num_dice (int): The number of dice to roll.
+
+        Returns:
+        - tuple: A tuple representing the values rolled on the dice.
+        """
         if 1 <= num_dice <= 6:
             # Generate random values for the rolled dice
             dice_values = tuple(random.randint(1, 6) for _ in range(num_dice))
