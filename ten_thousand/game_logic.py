@@ -1,7 +1,6 @@
 from collections import Counter
 
 import random
-
 class GameLogic:
     @staticmethod
     def calculate_score(dice_roll):
@@ -10,30 +9,15 @@ class GameLogic:
 
         # Count occurrences of each value using Counter
         counts = Counter(dice_roll)
-        print("counts is:",counts)
+        print("counts is:", counts)
 
-        # Calculate score for 1s
-        # score += counts[1] * (counts[1] // 3) * (100 * (counts[1] % 3))
-
-        # Calculate score for 5s
-        # score += counts[5] * (counts[5] // 3) * (50 * (counts[5] % 3))
-
-
-
-        # Scoring for ones, twos, threes, fours, fives, sixes
-        # unique_values = sorted(set(dice_roll))
-        # if len(counts) == 6 and counts == [1, 2, 3, 4, 5, 6]:
-        #     score += 1500
         if len(counts) == 6 and all(count == 1 for count in counts.values()):
             score += 1500
             return score
 
-
-        for value in range(1,7):
-            
+        for value in range(1, 7):
             if value != 1 and value != 5:
                 score += value * 100 * (counts[value] // 3)
-
             elif value == 1:
                 score += 1000 * (counts[1] // 3) + 100 * (counts[1] % 3)
             elif value == 5:
@@ -43,57 +27,30 @@ class GameLogic:
         print("count.items is:", counts.items())
 
         for value, count in counts.items():
-            # if len(dice_roll) == 6 and dice_roll.count(value)==2:
-            #     score += 800
-            print("current score:", score)   
-    
-            # if count >= 4 and value != 1:
-            #     score += value * 100
-            #     print("current score after 4 of a kind:", score)   
+            print("current score:", score)
+            if count >= 4:
+                score += value * 100
+                print("current score after 4 of a kind:", score)
 
-            # if count >= 5 and value == 1:
-            #     score += (value * 100) * (count - 4)
-            #     print("current score after 5 of a kind:", score)
+            if count >= 5:
+                score += value * 100
+                print("current score after 5 of a kind:", score)
 
-      
-            if count >=4:
-                score+= value *100
-                print("current score after 4 of a kind:", score)   
+        # Special cases using the more concise version
+        for count in [6, 5, 4]:
+            if counts[1] == count:
+                score += 2000 if count == 6 else 1000 * (count - 3)
 
-            if count >=5:
-                score+= value *100
-                print("current score after 5 of a kind:", score)   
+        if counts[5] == 4:
+            score -= 50
 
-            if dice_roll.count(1)==6:
-                score += 1800
-            if dice_roll.count(1)==5:
-                score += 1600
-            if dice_roll.count(1)==4:
-                score += 800
-            if dice_roll.count(5)==4:
-                score -= 50
-            if dice_roll.count(5)==5:
-                score -= 100
-            if dice_roll.count(2)==2 and dice_roll.count(3)==2 and dice_roll.count(6)==2 :
-                score += 500
+        if counts[5] == 5:
+            score -= 100
 
-          
+        if all(counts[val] == 2 for val in [2, 3, 6]):
+            score += 500
 
-            # if count ==6:
-            #     score += value * 1000
-
-            # if len(dice_roll) == 6 and dice_roll.count(value)==1:
-            #     score += 8000
-     
-
-
-        # Scoring for straights
-        # unique_values = sorted(set(dice_roll))
-        # if len(unique_values) == 6:
-        #     score +=1500
-        # if len(unique_values) == 6 and unique_values == [1, 2, 3, 4, 5, 6]:
-        #     score += 1500
-        print("current score after final:", score)   
+        print("current score after final:", score)
 
         return score
 
