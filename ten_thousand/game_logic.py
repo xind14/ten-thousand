@@ -1,5 +1,4 @@
 from collections import Counter
-
 import random
 
 class GameLogic:
@@ -19,7 +18,7 @@ class GameLogic:
 
         # Count occurrences of each value using Counter
         counts = Counter(dice_roll)
-        print("counts is:", counts)
+        # print("counts is:", counts)
 
         if len(counts) == 6 and all(count == 1 for count in counts.values()):
             score += 1500
@@ -33,18 +32,18 @@ class GameLogic:
             elif value == 5:
                 score += 500 * (counts[5] // 3) + 50 * (counts[5] % 3)
 
-        print("dice roll count is:", dice_roll.count(value))
-        print("count.items is:", counts.items())
+        # print("dice roll count is:", counts[value])
+        # print("count.items is:", counts.items())
 
         for value, count in counts.items():
-            print("current score:", score)
+            # print("current score:", score)
             if count >= 4:
                 score += value * 100
-                print("current score after 4 of a kind:", score)
+                # print("current score after 4 of a kind:", score)
 
             if count >= 5:
                 score += value * 100
-                print("current score after 5 of a kind:", score)
+                # print("current score after 5 of a kind:", score)
 
             if dice_roll.count(1) == 6:
                 score += 1800
@@ -59,7 +58,7 @@ class GameLogic:
             if dice_roll.count(2) == 2 and dice_roll.count(3) == 2 and dice_roll.count(6) == 2:
                 score += 500
 
-        print("current score after final:", score)
+        # print("current score after final:", score)
 
         return score
 
@@ -80,5 +79,3 @@ class GameLogic:
             return dice_values
         else:
             raise ValueError("Number of dice should be between 1 and 6")
-
-
