@@ -1,6 +1,12 @@
 from ten_thousand.game_logic import GameLogic
 
 def play(roller=GameLogic.roll_dice):
+    """
+    Main function to play the game of Ten Thousand.
+
+    Parameters:
+    - roller: A function to simulate rolling dice. Default is GameLogic.roll_dice.
+    """
     total_score = 0
     round_number = 1
     quit_game = False  
@@ -21,6 +27,19 @@ def play(roller=GameLogic.roll_dice):
             round_number += 1
 
 def play_round(roller, total_score, round_number):
+    """
+    Function to play a round of the game.
+
+    Parameters:
+    - roller: A function to simulate rolling dice.
+    - total_score: The total score accumulated so far.
+    - round_number: The current round number.
+
+    Returns:
+    - round_score: The score earned in the current round.
+    - total_score: The updated total score.
+    - quit_game: Boolean indicating if the game should be terminated.
+    """
     round_score = 0
     dice_count = 6
     quit_game = False  
@@ -53,6 +72,12 @@ def play_round(roller, total_score, round_number):
             continue
 
 def banked_dice():
+    """
+    Function to get the player's choice of dice to keep.
+
+    Returns:
+    - player_choice: Tuple of integers representing the chosen dice.
+    """
     print("Enter dice to keep, or (q)uit:")
     player_input = input("> ")
     if player_input.lower() == 'q':
@@ -65,6 +90,12 @@ def banked_dice():
         return banked_dice()
 
 def players_choice_roll_bank_quit():
+    """
+    Function to get the player's choice for the next action.
+
+    Returns:
+    - player_choice: String representing the chosen action.
+    """
     print("(r)oll again, (b)ank your points or (q)uit:")
     player_choice = input("> ")
     return player_choice
