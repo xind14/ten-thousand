@@ -1,4 +1,4 @@
-# Lab: Class 6 - Ten Thousand version 1
+# Lab: Class 6,7,8,9 - Ten Thousand
 
 ## Author: Xin Deng, Andrea Thiel chatGPT
 
@@ -73,5 +73,29 @@ python ten_thousand/game_logic.py
 pytest-watch
 ```
 
+#### Version 2.0
 
+Build 2.0 Feature Tasks 
+
+1) Application should implement all features from previous version
+2) Application should allow user to set aside dice each roll
+3) Application should allow “banking” current score or rolling again.
+4) Application should keep track of total score
+5) Application should keep track of current round
+
+
+
+### To run 10,000:
+
+
+```bash
 python -m ten_thousand.game
+```
+
+## To test
+
+```bash
+pytest -s tests/version_2/test_sim_basic.py
+```
+
+
