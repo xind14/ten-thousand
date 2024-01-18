@@ -64,7 +64,10 @@ def banked_dice():
         print("Invalid input. Please enter a sequence of digits.")
         return banked_dice()
 
-
+def players_choice_roll_bank_quit():
+    print("(r)oll again, (b)ank your points or (q)uit:")
+    player_choice = input("> ")
+    return player_choice
 
 if __name__ == "__main__":
     play()
