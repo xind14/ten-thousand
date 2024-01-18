@@ -74,3 +74,4 @@ pytest-watch
 ```
 
 
+python -m ten_thousand.game
