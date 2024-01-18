@@ -71,6 +71,7 @@ def play_round(roller, total_score, round_number):
         elif choice == "r":
             continue
 
+
 def banked_dice():
     """
     Function to get the player's choice of dice to keep.
