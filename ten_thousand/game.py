@@ -90,9 +90,12 @@ def play_round(roller, total_score, round_number, round_score):
             print(f"Thanks for playing. You earned {total_score} points")
             return 0, True  
 
-        invalid_choice = set(player_choice) - set(dice)
-        if invalid_choice:
-            print(f"Invalid choice: {invalid_choice}. Please enter valid dice.")
+        # invalid_choice = set(player_choice) - set(dice)
+        # if invalid_choice:
+        #     print(f"Invalid choice: {invalid_choice}. Please enter valid dice.")
+        #     continue
+        if len(player_choice) > dice_count:
+            print('Cheater!!! Or possibly made a typo...')
             continue
 
         dice_count -= len(player_choice)
@@ -142,6 +145,7 @@ def confirm_keepers(roll):
         Tuple of values to keep aka "keepers".
         An empty tuple signals a "quit".
     """
+    valid_values = set(roll)
 
     while True:
         print("Enter dice to keep, or (q)uit:")
@@ -149,12 +153,12 @@ def confirm_keepers(roll):
         if keeper_string.lower() == 'q':
             return ()
         try:
-            player_choice = convert_keepers(keeper_string, roll)
+            player_choice = convert_keepers(keeper_string, valid_values)
             return player_choice
         except ValueError as e:
             print(str(e))
 
-def convert_keepers(keeper_string, roll):
+def convert_keepers(keeper_string, valid_values):
     """
     Convert a given string of dice values to keep into a tuple of integers.
 
@@ -170,7 +174,7 @@ def convert_keepers(keeper_string, roll):
         raise ValueError("Invalid input. Please enter a sequence of digits.")
 
     # Validate that each chosen keeper is present in the original roll
-    if all(keeper in roll for keeper in keepers):
+    if all(keeper in valid_values for keeper in keepers):
         return keepers
     else:
         raise ValueError("Invalid combination. Please enter valid dice.")
