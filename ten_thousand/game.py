@@ -22,7 +22,7 @@ def play(roller=GameLogic.roll_dice, num_rounds=20):
         decline_game()
         return
     elif prompt == "y":
-        start_game(roller, total_score, num_rounds)
+       total_score = start_game(roller, total_score, num_rounds)
 
 def invite_to_play():
     """
@@ -52,6 +52,8 @@ def start_game(roller, total_score, num_rounds):
         if quit_game:
             break  
         total_score += round_score
+    # return total_score
+
 
 def play_round(roller, total_score, round_number):
     """
@@ -70,23 +72,40 @@ def play_round(roller, total_score, round_number):
     dice_count = 6
     quit_game = False  
 
-    while True:
+    while dice_count > 0:
         dice = roller(dice_count)
         print(f"Rolling {len(dice)} dice...")
         print(format_roll(dice))
+
+        if GameLogic.calculate_score(dice) ==0:
+            zilch()
+            print(f"You banked 0 points in round {round_number}")
+            print(f"Total score is {total_score} points")
+            return round_score, False 
+        
 
         player_choice = confirm_keepers(dice)
         if player_choice == ():
             print(f"Thanks for playing. You earned {total_score} points")
             return 0, True  
 
+        invalid_choice = set(player_choice) - set(dice)
+        if invalid_choice:
+            print(f"Invalid choice: {invalid_choice}. Please enter valid dice.")
+            continue
+
         dice_count -= len(player_choice)
         round_score += GameLogic.calculate_score(player_choice)
+
+        if dice_count < 0:
+            # Reset dice_count to 0 if it goes below 0
+            dice_count = 0
 
         print(f"You have {round_score} unbanked points and {dice_count} dice remaining")
         choice = players_choice_roll_bank_quit()
 
         if choice == "b":
+            total_score += round_score
             print(f"You banked {round_score} points in round {round_number}")
             print(f"Total score is {total_score} points")
             return round_score, False 
@@ -96,6 +115,10 @@ def play_round(roller, total_score, round_number):
         elif choice == "r":
             continue
 
+
+    
+    return round_score, False
+
 def zilch():
     """
     Display zilch message.
@@ -104,9 +127,9 @@ def zilch():
         None
     """
     print('''
-        ****************************************
-        **        Zilch!!! Round over         **
-        ****************************************
+****************************************
+**        Zilch!!! Round over         **
+****************************************
         ''')
   
 
@@ -123,7 +146,7 @@ def confirm_keepers(roll):
     """
 
     while True:
-        print("Enter dice to keep, or (q)uit: ")
+        print("Enter dice to keep, or (q)uit:")
         keeper_string = input("> ")
         if keeper_string.lower() == 'q':
             return ()
@@ -185,7 +208,9 @@ def players_choice_roll_bank_quit():
     Returns:
         String representing the chosen action.
     """
-    return input("(r)oll again, (b)ank your points or (q)uit: ")
+    print("(r)oll again, (b)ank your points or (q)uit:")
+    player_choice_continue = input("> ")
+    return player_choice_continue
 
 def decline_game():
     """

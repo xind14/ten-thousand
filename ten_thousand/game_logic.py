@@ -32,6 +32,12 @@ class GameLogic:
             elif value == 5:
                 score += 500 * (counts[5] // 3) + 50 * (counts[5] % 3)
 
+        # Check if there are exactly three values with a count of 2
+        if sum(count == 2 for count in counts.values()) == 3:
+            # Three pairs of any values
+            score += 500
+
+
         # print("dice roll count is:", counts[value])
         # print("count.items is:", counts.items())
 
@@ -55,8 +61,8 @@ class GameLogic:
                 score -= 50
             if dice_roll.count(5) == 5:
                 score -= 100
-            if dice_roll.count(2) == 2 and dice_roll.count(3) == 2 and dice_roll.count(6) == 2:
-                score += 500
+            # if dice_roll.count(2) == 2 and dice_roll.count(3) == 2 and dice_roll.count(6) == 2:
+            #     score += 500
 
         # print("current score after final:", score)
 
