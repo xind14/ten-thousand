@@ -80,11 +80,10 @@ def play_round(roller, total_score, round_number, round_score):
         print(format_roll(dice))
 
         if GameLogic.calculate_score(dice) == 0:
-            zilch()
-            print(f"You banked 0 points in round {round_number}")
-            print(f"Total score is {total_score} points")
-            return round_score, False 
-
+            round_score=zilch(round_number,total_score)
+            # print(f"DEBUG: round_score after zilch: {round_score}")
+            return round_score, False
+            
         while True:
             player_choice = confirm_keepers(dice)
             if player_choice == ():
@@ -93,7 +92,7 @@ def play_round(roller, total_score, round_number, round_score):
 
             invalid_choice = set(player_choice) - set(dice)
             if invalid_choice:
-                print(f"Invalid choice: {invalid_choice}. Please enter valid dice.")
+                print('Cheater!!! Or possibly made a typo...')
             else:
                 break  # Valid input, break out of the inner loop
 
@@ -107,6 +106,9 @@ def play_round(roller, total_score, round_number, round_score):
         if dice_count < 0:
             # Reset dice_count to 0 if it goes below 0
             dice_count = 0
+        elif dice_count==0:
+            dice_count=6
+         
 
         print(f"You have {round_score} unbanked points and {dice_count} dice remaining")
         choice = players_choice_roll_bank_quit()
@@ -124,7 +126,7 @@ def play_round(roller, total_score, round_number, round_score):
     
     return round_score, False
 
-def zilch():
+def zilch(round_number,total_score):
     """
     Display zilch message.
 
@@ -136,6 +138,11 @@ def zilch():
 **        Zilch!!! Round over         **
 ****************************************
         ''')
+    print(f"You banked 0 points in round {round_number}")
+    print(f"Total score is {total_score} points")
+    # i think setting it to 0 fixed the unbanked points adding to total issue
+    return 0 
+
 
 def confirm_keepers(roll):
     """
