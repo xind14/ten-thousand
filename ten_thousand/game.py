@@ -48,14 +48,16 @@ def start_game(roller, total_score, num_rounds):
     """
     for round_number in range(1, num_rounds + 1):
         print(f"Starting round {round_number}")
-        round_score, quit_game = play_round(roller, total_score, round_number)
+        
+        # Reset round_score for the new round
+        round_score = 0
+        
+        round_score, quit_game = play_round(roller, total_score, round_number, round_score)
         if quit_game:
             break  
         total_score += round_score
-    # return total_score
 
-
-def play_round(roller, total_score, round_number):
+def play_round(roller, total_score, round_number, round_score):
     """
     Play a round of the game.
 
@@ -63,12 +65,12 @@ def play_round(roller, total_score, round_number):
         roller: A function to simulate rolling dice.
         total_score: The total score accumulated so far.
         round_number: The current round number.
+        round_score: The score earned in the current round.
 
     Returns:
         round_score: The score earned in the current round.
         quit_game: Boolean indicating if the game should be terminated.
     """
-    round_score = 0
     dice_count = 6
     quit_game = False  
 
@@ -77,12 +79,11 @@ def play_round(roller, total_score, round_number):
         print(f"Rolling {len(dice)} dice...")
         print(format_roll(dice))
 
-        if GameLogic.calculate_score(dice) ==0:
+        if GameLogic.calculate_score(dice) == 0:
             zilch()
             print(f"You banked 0 points in round {round_number}")
             print(f"Total score is {total_score} points")
             return round_score, False 
-        
 
         player_choice = confirm_keepers(dice)
         if player_choice == ():
@@ -114,8 +115,6 @@ def play_round(roller, total_score, round_number):
             return 0, True  
         elif choice == "r":
             continue
-
-
     
     return round_score, False
 
@@ -131,7 +130,6 @@ def zilch():
 **        Zilch!!! Round over         **
 ****************************************
         ''')
-  
 
 def confirm_keepers(roll):
     """
