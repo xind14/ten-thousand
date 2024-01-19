@@ -36,9 +36,9 @@ class GameLogic:
         if sum(count == 2 for count in counts.values()) == 3:
     # Three pairs of any values
             score += 1500
-        triple_sets = [value for value, count in counts.items() if count >= 3]
-        if len(triple_sets) == 2:
-            score += sum(triple_sets) * 1000 * 2
+        # triple_sets = [value for value, count in counts.items() if count >= 3]
+        # if len(triple_sets) == 2:
+        #     score += sum(triple_sets) * 1000 * 2
 
             # Subtract individual points for 1s and 5s for pairs, hot dice test now passing
             score -= min(counts[1] * 100, 300)  

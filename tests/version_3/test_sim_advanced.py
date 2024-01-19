@@ -5,14 +5,14 @@ from ten_thousand.game import play
 
 pytestmark = [pytest.mark.version_3]
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_repeat_roller():
     """Allow setting aside scoring dice and rolling the rest
     """
     diffs = diff(play, path="tests/version_3/repeat_roller.sim.txt")
     assert not diffs, diffs
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_hot_dice():
     """When all dice are used without a zilch
     then user gets 6 fresh dice and continues turn.
@@ -28,9 +28,10 @@ def test_cheat_and_fix():
     """
 
     diffs = diff(play, path="tests/version_3/cheat_and_fix.sim.txt")
+    print(diffs)
     assert not diffs, diffs
 
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_zilcher():
     """
     No scoring dice results in a 'zilch'

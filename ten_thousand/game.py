@@ -32,7 +32,13 @@ def invite_to_play():
         string "y" or "n"
     """
     print("(y)es to play or (n)o to decline")
-    return input("> ")
+    prompt = input("> ")
+
+    while prompt.lower() not in ['y', 'n']:
+        print("Invalid input. Please enter 'y' to play or 'n' to decline.")
+        prompt = input("> ")
+
+    return prompt.lower()
 
 def start_game(roller, total_score, num_rounds):
     """
