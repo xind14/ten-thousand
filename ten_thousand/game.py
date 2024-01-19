@@ -85,15 +85,18 @@ def play_round(roller, total_score, round_number, round_score):
             print(f"Total score is {total_score} points")
             return round_score, False 
 
-        player_choice = confirm_keepers(dice)
-        if player_choice == ():
-            print(f"Thanks for playing. You earned {total_score} points")
-            return 0, True  
+        while True:
+            player_choice = confirm_keepers(dice)
+            if player_choice == ():
+                print(f"Thanks for playing. You earned {total_score} points")
+                return 0, True  
 
-        # invalid_choice = set(player_choice) - set(dice)
-        # if invalid_choice:
-        #     print(f"Invalid choice: {invalid_choice}. Please enter valid dice.")
-        #     continue
+            invalid_choice = set(player_choice) - set(dice)
+            if invalid_choice:
+                print(f"Invalid choice: {invalid_choice}. Please enter valid dice.")
+            else:
+                break  # Valid input, break out of the inner loop
+
         if len(player_choice) > dice_count:
             print('Cheater!!! Or possibly made a typo...')
             continue
@@ -177,6 +180,7 @@ def convert_keepers(keeper_string, valid_values):
     if all(keeper in valid_values for keeper in keepers):
         return keepers
     else:
+        print(f"Debug: keepers={keepers}, valid_values={valid_values}")
         raise ValueError("Invalid combination. Please enter valid dice.")
 
 def do_roll(num_dice):
