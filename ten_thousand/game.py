@@ -100,8 +100,12 @@ def play_round(roller, total_score, round_number, round_score):
             invalid_choice = set(player_choice) - set(dice)
             if invalid_choice:
                 print("Cheater!!! Or possibly made a typo...")
+                print(format_roll(dice))
+
             elif len(player_choice) > dice_count or any(player_choice.count(keeper) > dice.count(keeper) for keeper in set(player_choice)):
                 print("Cheater!!! Or possibly made a typo...")
+                print(format_roll(dice))
+
             else:
                 break  # Valid input, break out of the inner loop
 
