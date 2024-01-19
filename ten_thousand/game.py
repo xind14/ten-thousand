@@ -48,12 +48,12 @@ def start_game(roller, total_score, num_rounds):
     """
     for round_number in range(1, num_rounds + 1):
         print(f"Starting round {round_number}")
-        round_score, quit_game = do_round(roller, total_score, round_number)
+        round_score, quit_game = play_round(roller, total_score, round_number)
         if quit_game:
             break  
         total_score += round_score
 
-def do_round(roller, total_score, round_number):
+def play_round(roller, total_score, round_number):
     """
     Play a round of the game.
 
@@ -103,9 +103,12 @@ def zilch():
     Returns:
         None
     """
-    print("****************************************")
-    print("**        Zilch!!! Round over         **")
-    print("****************************************")
+    print('''
+        ****************************************
+        **        Zilch!!! Round over         **
+        ****************************************
+        ''')
+  
 
 def confirm_keepers(roll):
     """
@@ -118,20 +121,19 @@ def confirm_keepers(roll):
         Tuple of values to keep aka "keepers".
         An empty tuple signals a "quit".
     """
+
     while True:
-        keeper_string = input("Enter dice to keep, or (q)uit: ")
+        print("Enter dice to keep, or (q)uit: ")
+        keeper_string = input("> ")
         if keeper_string.lower() == 'q':
             return ()
         try:
-            player_choice = convert_keepers(keeper_string)
-            if GameLogic.is_valid_combination(player_choice, roll):
-                return player_choice
-            else:
-                print("Invalid combination. Please enter valid dice.")
-        except ValueError:
-            print("Invalid input. Please enter a sequence of digits.")
+            player_choice = convert_keepers(keeper_string, roll)
+            return player_choice
+        except ValueError as e:
+            print(str(e))
 
-def convert_keepers(keeper_string):
+def convert_keepers(keeper_string, roll):
     """
     Convert a given string of dice values to keep into a tuple of integers.
 
@@ -141,7 +143,16 @@ def convert_keepers(keeper_string):
     Returns:
         Tuple of integers.
     """
-    return tuple(map(int, keeper_string))
+    try:
+        keepers = tuple(int(char) for char in keeper_string)
+    except ValueError:
+        raise ValueError("Invalid input. Please enter a sequence of digits.")
+
+    # Validate that each chosen keeper is present in the original roll
+    if all(keeper in roll for keeper in keepers):
+        return keepers
+    else:
+        raise ValueError("Invalid combination. Please enter valid dice.")
 
 def do_roll(num_dice):
     """
