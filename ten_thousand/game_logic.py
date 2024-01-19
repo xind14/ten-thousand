@@ -11,7 +11,7 @@ class GameLogic:
         - dice_roll (tuple): A tuple representing the values rolled on dice.
 
         Returns:
-        - int: The calculated score.
+        - calculated score.
         """
         # Implement scoring logic based on the rules of the game
         score = 0
@@ -79,3 +79,28 @@ class GameLogic:
             return dice_values
         else:
             raise ValueError("Number of dice should be between 1 and 6")
+
+    @staticmethod
+    def validate_keepers(roll, keepers):
+        """
+        Validate if the chosen keepers are legal based on the current roll.
+
+        Parameters:
+        - roll (tuple): The current roll of dice.
+        - keepers (tuple): The values chosen to keep.
+
+        Returns:
+        - true if the keepers are legal, False otherwise.
+        """
+        # Count occurrences of each value using Counter
+        roll_counts = Counter(roll)
+        keepers_counts = Counter(keepers)
+
+        # Check if the keepers are present in the current roll
+        for value, count in keepers_counts.items():
+            if value not in roll_counts or count > roll_counts[value]:
+                return False
+
+        return True
+    
+    
