@@ -83,22 +83,22 @@ def play_round(roller, total_score, round_number, round_score):
             round_score=zilch(round_number,total_score)
             # print(f"DEBUG: round_score after zilch: {round_score}")
             return round_score, False
-            
+        player_choice=None    
         while True:
-            player_choice = confirm_keepers(dice)
+            player_choice = confirm_keepers(dice, player_choice)
+            # print(f"DEBUG: player_choice after confirm_keepers: {player_choice}")
             if player_choice == ():
                 print(f"Thanks for playing. You earned {total_score} points")
                 return 0, True  
 
             invalid_choice = set(player_choice) - set(dice)
             if invalid_choice:
-                print('Cheater!!! Or possibly made a typo...')
+                print("Cheater!!! Or possibly made a typo...")
+            elif len(player_choice) > dice_count or any(player_choice.count(keeper) > dice.count(keeper) for keeper in set(player_choice)):
+                print("Cheater!!! Or possibly made a typo...")
             else:
                 break  # Valid input, break out of the inner loop
 
-        if len(player_choice) > dice_count:
-            print('Cheater!!! Or possibly made a typo...')
-            continue
 
         dice_count -= len(player_choice)
         round_score += GameLogic.calculate_score(player_choice)
@@ -133,18 +133,18 @@ def zilch(round_number,total_score):
     Returns:
         None
     """
-    print('''
-****************************************
+    print(
+'''****************************************
 **        Zilch!!! Round over         **
-****************************************
-        ''')
+****************************************'''
+)
     print(f"You banked 0 points in round {round_number}")
     print(f"Total score is {total_score} points")
     # i think setting it to 0 fixed the unbanked points adding to total issue
     return 0 
 
 
-def confirm_keepers(roll):
+def confirm_keepers(roll, keepers):
     """
     Return values that the user would like to keep after being validated.
 
@@ -160,6 +160,7 @@ def confirm_keepers(roll):
     while True:
         print("Enter dice to keep, or (q)uit:")
         keeper_string = input("> ")
+        
         if keeper_string.lower() == 'q':
             return ()
         try:
@@ -168,27 +169,27 @@ def confirm_keepers(roll):
         except ValueError as e:
             print(str(e))
 
+
+
 def convert_keepers(keeper_string, valid_values):
     """
     Convert a given string of dice values to keep into a tuple of integers.
 
     Args:
         keeper_string: String input by the user.
+        valid_values: Set of valid dice values.
 
     Returns:
         Tuple of integers.
     """
-    try:
-        keepers = tuple(int(char) for char in keeper_string)
-    except ValueError:
-        raise ValueError("Invalid input. Please enter a sequence of digits.")
+    keeper_string = keeper_string.replace(" ", "")
+    individual_keepers = [int(char) for char in keeper_string if char.isdigit()]
 
     # Validate that each chosen keeper is present in the original roll
-    if all(keeper in valid_values for keeper in keepers):
-        return keepers
+    if all(keeper in valid_values for keeper in individual_keepers):
+        return tuple(individual_keepers)
     else:
-        print(f"Debug: keepers={keepers}, valid_values={valid_values}")
-        raise ValueError("Invalid combination. Please enter valid dice.")
+        raise ValueError("Cheater!!! Or possibly made a typo...")
 
 def do_roll(num_dice):
     """

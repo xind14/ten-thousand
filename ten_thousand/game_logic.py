@@ -34,8 +34,16 @@ class GameLogic:
 
         # Check if there are exactly three values with a count of 2
         if sum(count == 2 for count in counts.values()) == 3:
-            # Three pairs of any values
-            score += 500
+    # Three pairs of any values
+            score += 1500
+        triple_sets = [value for value, count in counts.items() if count >= 3]
+        if len(triple_sets) == 2:
+            score += sum(triple_sets) * 1000 * 2
+
+            # Subtract individual points for 1s and 5s for pairs, hot dice test now passing
+            score -= min(counts[1] * 100, 300)  
+            score -= min(counts[5] * 50, 150)  
+
 
 
         # print("dice roll count is:", counts[value])
