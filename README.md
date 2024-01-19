@@ -99,3 +99,30 @@ pytest -s tests/version_2/test_sim_basic.py
 ```
 
 
+#### Version 3.0
+
+Build 3.0 Feature Tasks 
+
+1) Application should implement all features from previous version
+2) Should handle setting aside scoring dice and continuing turn with remaining dice.
+3) Should handle when cheating occurs. Or just typos.
+    - E.g. roll = [1,3,5,2] and user selects 1, 1, 1, 1, 1, 1
+4) Should allow user to continue rolling with 6 new dice when all dice have scored in current turn.
+5) Handle zilch
+    - No points for round, and round is over
+
+
+### To run 10,000:
+
+
+```bash
+python -m ten_thousand.game
+```
+
+## To test
+
+```bash
+pytest -s tests/version_3/test_sim_advanced.py
+```
+
+
