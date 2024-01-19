@@ -103,4 +103,26 @@ class GameLogic:
 
         return True
     
-    
+    @staticmethod
+    def get_scorers(dice_roll):
+        """
+        Identify the scoring dice in the given roll.
+
+        Parameters:
+        - dice_roll (tuple): A tuple representing the values rolled on dice.
+
+        Returns:
+        - tuple: A tuple containing the values that contribute to the score.
+        """
+        # Count occurrences of each value using Counter
+        counts = Counter(dice_roll)
+        
+        # Identify scoring dice based on the rules
+        scorers = []
+        for value, count in counts.items():
+            if value == 1 and count >= 1:
+                scorers.extend([1] * min(count, 3))
+            elif value == 5 and count >= 1:
+                scorers.extend([5] * min(count, 3))
+
+        return tuple(scorers)
